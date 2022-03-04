@@ -24,14 +24,18 @@ public class Stat : MonoBehaviour
     public int Defense { get { return _defense; } set { _defense = value; } }
     public float Speed { get { return _speed; } set { _speed = value; } }
 
-    private void Start()
+    private void Awake()
     {
+        
+        
         _level = 1;
         _hp = 100;
         _maxHp = 100;
-        _attack = 10;
+        _attack = 30;
         _defense = 5;
         _speed = 5.0f;
+        
+        
     }
 
 }
