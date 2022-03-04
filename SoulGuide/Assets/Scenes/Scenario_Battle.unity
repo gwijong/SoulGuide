@@ -205,18 +205,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dc7ccc0475490d41bdaf597da475716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allyCharacter:
+  allyList:
   - {fileID: 1326976043}
   - {fileID: 1771999934}
   - {fileID: 263762057}
   - {fileID: 980613311}
-  Wave1enemyCharacter:
+  enemyList:
   - {fileID: 1110028153}
   - {fileID: 1280573550}
   - {fileID: 1878951533}
   - {fileID: 1179214328}
-  Wave2enemyCharacter: []
-  Wave3enemyCharacter: []
   spawnArea:
   - {fileID: 648703892}
   - {fileID: 1355740620}
@@ -228,6 +226,7 @@ MonoBehaviour:
   - {fileID: 1649578873}
   - {fileID: 1938090406}
   turnCount: 0
+  speed: 10
 --- !u!1 &166021512
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,7 +272,7 @@ GameObject:
   - component: {fileID: 263762062}
   m_Layer: 0
   m_Name: Ally_Left
-  m_TagString: Untagged
+  m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -773,7 +772,7 @@ GameObject:
   - component: {fileID: 980613316}
   m_Layer: 0
   m_Name: Ally_Back
-  m_TagString: Untagged
+  m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -917,7 +916,7 @@ GameObject:
   - component: {fileID: 1110028158}
   m_Layer: 0
   m_Name: Enemy_Front
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1031,7 +1030,7 @@ GameObject:
   - component: {fileID: 1179214333}
   m_Layer: 0
   m_Name: Enemy_Back
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1227,7 +1226,7 @@ GameObject:
   - component: {fileID: 1280573555}
   m_Layer: 0
   m_Name: Enemy_Left
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1341,7 +1340,7 @@ GameObject:
   - component: {fileID: 1326976048}
   m_Layer: 0
   m_Name: Ally_Front
-  m_TagString: Untagged
+  m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1515,7 +1514,7 @@ GameObject:
   - component: {fileID: 1771999939}
   m_Layer: 0
   m_Name: Ally_Right
-  m_TagString: Untagged
+  m_TagString: Ally
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1629,7 +1628,7 @@ GameObject:
   - component: {fileID: 1878951538}
   m_Layer: 0
   m_Name: Enemy_Right
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
