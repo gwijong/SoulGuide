@@ -19,6 +19,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField]
     private int turnCount = 0;
     private bool allyTurn = true;
+    private bool mouseInputStop = false;
 
     public float speed;
 
@@ -64,6 +65,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
+            mouseInputStop = false;
             if (victim.GetComponent<Stat>().Hp <= 0)
             {
                 victim.GetComponent<Stat>().Hp = 0;
@@ -75,8 +77,9 @@ public class BattleManager : MonoBehaviour
     void Battle()
     {
     
-        if (Input.GetMouseButtonDown(0) && allyTurn && turnCount < allyList.Count)
+        if (Input.GetMouseButtonDown(0) && allyTurn && turnCount < allyList.Count && mouseInputStop ==false)
         {
+            mouseInputStop = true;
             if (turnCount == 0 && attacker != null)
             {
                 attacker.transform.position = returnPos;
@@ -86,6 +89,8 @@ public class BattleManager : MonoBehaviour
             if (enemyList.Count==0)
             {
                 Debug.Log("enemy Àü¸ê");
+                attacker.transform.position = returnPos;
+                battleFinish = true;
                 return;
             }
 
@@ -114,8 +119,9 @@ public class BattleManager : MonoBehaviour
           
             turnCount++;
         }
-        else if (Input.GetMouseButtonDown(0) && !allyTurn && turnCount < enemyList.Count)
+        else if (Input.GetMouseButtonDown(0) && !allyTurn && turnCount < enemyList.Count && mouseInputStop == false)
         {
+            mouseInputStop = true;
             if(turnCount == 0 && attacker != null)
             {
                 attacker.transform.position = returnPos;
@@ -123,7 +129,9 @@ public class BattleManager : MonoBehaviour
             }
             if (allyList.Count == 0)
             {
-                Debug.Log("ally Àü¸ê");               
+                Debug.Log("ally Àü¸ê");
+                attacker.transform.position = returnPos;
+                battleFinish = true;
                 return;
             }
             OnAttack(enemyList[turnCount], allyList[0]);
@@ -176,7 +184,10 @@ public class BattleManager : MonoBehaviour
 
     protected void OnDead(GameObject victim)
     {
-        Debug.Log($"{victim.name} Ä³¸¯ÅÍ »ç¸Á");
+        if(victim.activeSelf == true)
+        {
+            Debug.Log($"{victim.name} Ä³¸¯ÅÍ »ç¸Á");
+        }     
         if (victim.tag == "Enemy")
         {
             enemyList.Remove(victim);
@@ -186,6 +197,11 @@ public class BattleManager : MonoBehaviour
             allyList.Remove(victim);
         }
         victim.SetActive(false);
+    }
 
+    void MouseInput()
+    {
+        //RaycastHit Hit = 
+            
     }
 }
