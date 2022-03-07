@@ -5,6 +5,7 @@ using UnityEngine;
 public class Stat : MonoBehaviour
 {
     public int level;
+    public int exp;
     public int hp;
     public int maxHp;
     public int attackDamage;
