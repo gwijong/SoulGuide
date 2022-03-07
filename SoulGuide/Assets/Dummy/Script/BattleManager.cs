@@ -7,14 +7,16 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager battleManager { get; private set; }
 
-    public List<GameObject> allyList; // 아군 캐릭터들 앞 오른쪽 왼쪽 뒤 순서
-    public List<GameObject> enemyList; // 1웨이브 적 캐릭터들
+    public List<Stat> allyList; // 아군 캐릭터들 앞 오른쪽 왼쪽 뒤 순서
+    public List<Stat> enemyList; // 1웨이브 적 캐릭터들
 
-    public GameObject[] spawnArea; //씬 로드 시 아군 캐릭터 소환 위치
-    public GameObject[] anemySpawnArea; //씬 로드 시 적 캐릭터 소환 위치
+    public List<Stat> turnQueue = new List<Stat>();
 
-    GameObject attacker;
-    GameObject victim;
+    public Transform[] spawnArea; //씬 로드 시 아군 캐릭터 소환 위치
+    public Transform[] anemySpawnArea; //씬 로드 시 적 캐릭터 소환 위치
+
+    Stat attacker;
+    Stat victim;
 
     [SerializeField]
     private int turnCount = 0;
@@ -22,6 +24,8 @@ public class BattleManager : MonoBehaviour
     private bool mouseInputStop = false;
 
     public float speed;
+    public float limit = 100;
+    public int maxPriorityCount = 20;
 
     Vector3 returnPos;
     bool battleFinish = false;
@@ -35,173 +39,106 @@ public class BattleManager : MonoBehaviour
         else
         {
             Destroy(this);
-        }
+        };
     }
 
     void Start()
     {
 
-        
+
+        SpeedSort();
     }
 
 
     void Update()
     {
-        Battle();
-        CharacterMove();
+
     }
 
-    private void CharacterMove()
+    void OnAttack(Stat attacker, Stat victim)
     {
-        if(victim == null || attacker == null || battleFinish == true)
-        {
-            return;
-        }
-
-        Vector3 dir = (victim.transform.position - attacker.transform.position).normalized;
-        if ((victim.transform.position - attacker.transform.position).magnitude > 2.0f )
-        {
-            attacker.transform.Translate(dir*Time.deltaTime*speed);
-        }
-        else
-        {
-            mouseInputStop = false;
-            if (victim.GetComponent<Stat>().Hp <= 0)
-            {
-                victim.GetComponent<Stat>().Hp = 0;
-                OnDead(victim);
-            }
-        }
+        victim.TakeDamage(attacker.attackDamage);
     }
 
-    void Battle()
+    void Dead(Stat victim)
     {
+        if (victim.hp <= 0)
+        {
+            victim.gameObject.SetActive(false);
+            Debug.Log($"{ victim.name} 사망");
+        }        
+    }
     
-        if (Input.GetMouseButtonDown(0) && allyTurn && turnCount < allyList.Count && mouseInputStop ==false)
-        {
-            mouseInputStop = true;
-            if (turnCount == 0 && attacker != null)
-            {
-                attacker.transform.position = returnPos;
-                attacker = null;
-            }
-
-            if (enemyList.Count==0)
-            {
-                Debug.Log("enemy 전멸");
-                attacker.transform.position = returnPos;
-                battleFinish = true;
-                return;
-            }
-
-            if (victim!= null && victim.GetComponent<Stat>().Hp <= 0)
-            {
-                victim.GetComponent<Stat>().Hp = 0;
-                OnDead(victim);
-            }
-
-            OnAttack(allyList[turnCount], enemyList[0]);
-            if (attacker != null && attacker.tag == "Ally")
-            {
-                attacker.transform.position = returnPos;
-            }
-
-            returnPos = allyList[turnCount].transform.position;
-            attacker = allyList[turnCount];
-            if (enemyList.Count != 0)
-            {
-                victim = enemyList[0];
-            }
-            else
-            {
-                battleFinish = true;
-            }
-          
-            turnCount++;
-        }
-        else if (Input.GetMouseButtonDown(0) && !allyTurn && turnCount < enemyList.Count && mouseInputStop == false)
-        {
-            mouseInputStop = true;
-            if(turnCount == 0 && attacker != null)
-            {
-                attacker.transform.position = returnPos;
-                attacker = null;
-            }
-            if (allyList.Count == 0)
-            {
-                Debug.Log("ally 전멸");
-                attacker.transform.position = returnPos;
-                battleFinish = true;
-                return;
-            }
-            OnAttack(enemyList[turnCount], allyList[0]);
-            
-            if (attacker != null && attacker.tag == "Enemy")
-            {
-                attacker.transform.position = returnPos;
-            }
-
-            returnPos = enemyList[turnCount].transform.position;
-            attacker = enemyList[turnCount];
-            if (enemyList.Count != 0)
-            {
-                victim = allyList[0];
-            }
-            else
-            {
-                battleFinish = true;
-            }
-            turnCount++;
-        }
-
-        if (turnCount >= allyList.Count && allyTurn)
-        {
-            allyTurn = false;
-            turnCount = 0;
-        }
-        else if (turnCount >= enemyList.Count && !allyTurn)
-        {
-            turnCount = 0;
-            allyTurn = true;
-        }
-    }
-
-    public void OnAttack(GameObject attacker, GameObject victim)
+    void TurnEnd()
     {
-        if(attacker.activeSelf == false || victim.activeSelf == false)
-        {
-            return;
-        }
-        int damage = attacker.GetComponent<Stat>().Attack;
-        int Hp = victim.GetComponent<Stat>().Hp;
-        Hp = Hp - damage;
-        victim.GetComponent<Stat>().Hp = Hp;
-        Debug.Log
-        ($"{attacker.name} 캐릭터가 {victim.name} 캐릭터를 공격, \n" +
-        $"공격자 데미지{attacker.GetComponent<Stat>().Attack}, 피격자 남은 생명력{victim.GetComponent<Stat>().Hp}");
 
     }
 
-    protected void OnDead(GameObject victim)
+    
+    void SpeedSort()  //  예상 턴 정렬
     {
-        if(victim.activeSelf == true)
-        {
-            Debug.Log($"{victim.name} 캐릭터 사망");
-        }     
-        if (victim.tag == "Enemy")
-        {
-            enemyList.Remove(victim);
-        }
-        else if (victim.tag == "Ally")
-        {
-            allyList.Remove(victim);
-        }
-        victim.SetActive(false);
-    }
+        turnQueue.Clear();  // 기존 턴 초기화
 
-    void MouseInput()
-    {
-        //RaycastHit Hit = 
-            
+        List<Stat> allCharList = new List<Stat>();  //적과 아군 리스트 합침
+        allCharList.AddRange(allyList);
+        allCharList.AddRange(enemyList);
+
+
+        float[] expectArray = new float[allCharList.Count];  // 예상 스택 배열
+
+        for (int i = 0; i < expectArray.Length; i++)
+        {
+            expectArray[i] = allCharList[i].speedStack;  // 모든 캐릭터 스피드 누적치 대입
+        };
+
+        while(turnQueue.Count< maxPriorityCount)
+        {   
+            int fastestTurn = allCharList[0].Priority(expectArray[0]); // 제일 빨리 도는 캐릭터 턴
+
+            //제일 빨리 도는 캐릭터의 턴 수 찾기
+            for (int i = 1; i < expectArray.Length; i++)
+            {
+                int currentPriority = allCharList[i].Priority(expectArray[i]);
+
+                if (fastestTurn > currentPriority)
+                {
+                    fastestTurn = currentPriority;
+                };
+            };
+
+            //가장 빠른 캐릭터가 100 이상 될 때까지 모든 애들 뱅뱅 돌려줌
+            for (int i = 1; i < expectArray.Length; i++)
+            {
+                expectArray[i] += fastestTurn * allCharList[i].speedWeight;
+            };
+
+
+            while (turnQueue.Count < maxPriorityCount)
+            {
+                float maxSpeed = expectArray[0];  // 가장 빠른 캐릭터 누적치
+                int maxIndex = 0; //예상 배열의 가장 빠른캐릭터
+
+                for (int j = 0; j < expectArray.Length; j++)  //예상 배열 길이만큼 뱅뱅 반복
+                {
+                    if (maxSpeed < expectArray[j]) // 가장 빠른 캐릭터 스피드 비교
+                    {
+                        maxSpeed = expectArray[j]; // 예상 배열의 가장 빠른캐릭터의 스피드 누적치 대입
+                        maxIndex = j; //예상 배열의 가장 빠른캐릭터의 인덱스
+                    }
+                }
+
+                if (maxSpeed >= limit) //제일 빠른 캐릭터 스피드 누적치가 100 이상이면
+                {
+                    turnQueue.Add(allCharList[maxIndex]);  //제일 빠른 캐릭터 큐에 넣고
+                    Debug.Log(allCharList[maxIndex]);
+                    expectArray[maxIndex] -= limit; //제일 빠른 캐릭터 스피드를 limit 만큼 빼줌
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
     }
 }

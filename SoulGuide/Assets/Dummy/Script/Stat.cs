@@ -4,38 +4,50 @@ using UnityEngine;
 
 public class Stat : MonoBehaviour
 {
-    [SerializeField]
-    protected int _level;
-    [SerializeField]
-    protected int _hp;
-    [SerializeField]
-    protected int _maxHp;
-    [SerializeField]
-    protected int _attack;
-    [SerializeField]
-    protected int _defense;
-    [SerializeField]
-    protected float _speed;
-
-    public int Level { get { return _level; } set { _level = value; } }
-    public int Hp { get { return _hp; } set { _hp = value; } }
-    public int MaxHp { get { return _maxHp; } set { _maxHp = value; } }
-    public int Attack { get { return _attack; } set { _attack = value; } }
-    public int Defense { get { return _defense; } set { _defense = value; } }
-    public float Speed { get { return _speed; } set { _speed = value; } }
+    public int level;
+    public int hp;
+    public int maxHp;
+    public int attackDamage;
+    public int defense;
+    public float speedWeight;
+    public float speedStack;
 
     private void Awake()
     {
-        
-        
-        _level = 1;
-        _hp = 100;
-        _maxHp = 100;
-        _attack = 50;
-        _defense = 5;
-        _speed = 5.0f;
-        
+  
+        level = 1;
+        hp = 100;
+        maxHp = 100;
+        attackDamage = 50;
+        defense = 5;
+        speedWeight = Random.Range(50, 70);
+        speedStack = 0;  //100이 되기 전 스피드 누적치
         
     }
 
+    public void TakeDamage(int attackDamage)
+    {
+        if (attackDamage > defense)
+        {
+            hp -= attackDamage - defense;
+        }      
+    }
+
+    public int Priority(float wantStack)
+    {
+        //Stack이 wantStack인 것으로 가정했을 때!
+        //몇 턴 뒤에 공격할 수 있는지!
+
+        //Stack + (Weight * time) >= limit
+        // Stack - limit >= -(Weight * time)
+        //limit - Stack >= Weight * time
+        //(limit - Stack) / Weight >= time
+
+        return Mathf.CeilToInt((BattleManager.battleManager.limit - wantStack) / speedWeight);
+    }
+
+    public int Priority() // 실제 계산할 때 쓸 예상치 오버로딩
+    {
+        return Mathf.CeilToInt((BattleManager.battleManager.limit - speedStack) / speedWeight);
+    }
 }

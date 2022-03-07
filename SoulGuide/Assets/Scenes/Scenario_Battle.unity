@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -206,15 +206,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   allyList:
-  - {fileID: 1326976043}
-  - {fileID: 1771999934}
-  - {fileID: 263762057}
-  - {fileID: 980613311}
+  - {fileID: 1326976048}
+  - {fileID: 1771999939}
   enemyList:
-  - {fileID: 1110028153}
-  - {fileID: 1280573550}
-  - {fileID: 1878951533}
-  - {fileID: 1179214328}
+  - {fileID: 1110028158}
+  - {fileID: 1280573555}
+  - {fileID: 1878951538}
+  - {fileID: 1179214333}
+  turnQueue: []
   spawnArea:
   - {fileID: 648703892}
   - {fileID: 1355740620}
@@ -227,6 +226,8 @@ MonoBehaviour:
   - {fileID: 1938090406}
   turnCount: 0
   speed: 10
+  limit: 100
+  maxPriorityCount: 20
 --- !u!1 &166021512
 GameObject:
   m_ObjectHideFlags: 0
@@ -276,7 +277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &263762058
 Transform:
   m_ObjectHideFlags: 0
@@ -365,12 +366,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe919494e5041c94fa2f1357d44c3937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _hp: 0
-  _maxHp: 0
-  _attack: 0
-  _defense: 0
-  _speed: 0
+  level: 0
+  hp: 0
+  maxHp: 0
+  attackDamage: 0
+  defense: 0
+  speedWeight: 0
+  speedStack: 0
 --- !u!1 &281753591
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,7 +778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &980613312
 Transform:
   m_ObjectHideFlags: 0
@@ -865,12 +867,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe919494e5041c94fa2f1357d44c3937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _hp: 0
-  _maxHp: 0
-  _attack: 0
-  _defense: 0
-  _speed: 0
+  level: 0
+  hp: 0
+  maxHp: 0
+  attackDamage: 0
+  defense: 0
+  speedWeight: 0
+  speedStack: 0
 --- !u!1 &1068688062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,12 +1012,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe919494e5041c94fa2f1357d44c3937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _hp: 0
-  _maxHp: 0
-  _attack: 0
-  _defense: 0
-  _speed: 0
+  level: 0
+  hp: 0
+  maxHp: 0
+  attackDamage: 0
+  defense: 0
+  speedWeight: 0
+  speedStack: 0
 --- !u!1 &1179214328
 GameObject:
   m_ObjectHideFlags: 0
@@ -1123,12 +1127,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe919494e5041c94fa2f1357d44c3937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _hp: 0
-  _maxHp: 0
-  _attack: 0
-  _defense: 0
-  _speed: 0
+  level: 0
+  hp: 0
+  maxHp: 0
+  attackDamage: 0
+  defense: 0
+  speedWeight: 0
+  speedStack: 0
 --- !u!1 &1261395681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1319,12 +1324,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe919494e5041c94fa2f1357d44c3937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _hp: 0
-  _maxHp: 0
-  _attack: 0
-  _defense: 0
-  _speed: 0
+  level: 0
+  hp: 0
+  maxHp: 0
+  attackDamage: 0
+  defense: 0
+  speedWeight: 0
+  speedStack: 0
 --- !u!1 &1326976043
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,12 +1439,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe919494e5041c94fa2f1357d44c3937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _hp: 0
-  _maxHp: 0
-  _attack: 0
-  _defense: 0
-  _speed: 0
+  level: 0
+  hp: 0
+  maxHp: 0
+  attackDamage: 0
+  defense: 0
+  speedWeight: 0
+  speedStack: 0
 --- !u!1 &1355740620
 GameObject:
   m_ObjectHideFlags: 0
@@ -1607,12 +1614,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe919494e5041c94fa2f1357d44c3937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _hp: 0
-  _maxHp: 0
-  _attack: 0
-  _defense: 0
-  _speed: 0
+  level: 0
+  hp: 0
+  maxHp: 0
+  attackDamage: 0
+  defense: 0
+  speedWeight: 0
+  speedStack: 0
 --- !u!1 &1878951533
 GameObject:
   m_ObjectHideFlags: 0
@@ -1721,12 +1729,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe919494e5041c94fa2f1357d44c3937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: 0
-  _hp: 0
-  _maxHp: 0
-  _attack: 0
-  _defense: 0
-  _speed: 0
+  level: 0
+  hp: 0
+  maxHp: 0
+  attackDamage: 0
+  defense: 0
+  speedWeight: 0
+  speedStack: 0
 --- !u!1 &1938090406
 GameObject:
   m_ObjectHideFlags: 0
