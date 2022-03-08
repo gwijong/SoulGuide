@@ -107,33 +107,47 @@ public class BattleManager : MonoBehaviour
         attacker.transform.position = returnPosition[turnCount];
     }
 
+    bool AnnihilationCheck()
+    {
+        if (allyList.Count == 0)
+        {
+            Debug.Log("아군 전멸 전투종료");
+            return true;
+        }
+        else if (enemyList.Count == 0)
+        {
+            Debug.Log("적군 전멸 전투종료");
+            return true;
+        }
+        else 
+        {
+            return false;
+        
+        }
+    }
+
     void Battle()
     {
-
+        if (AnnihilationCheck())
+        {
+            return;
+        }
         if (attacker.tag == "Enemy")
         {
             if (allyList[allyArrayCount].gameObject.activeSelf == false)
             {
-                allyArrayCount++;
-                victim = allyList[allyArrayCount];
+                allyArrayCount++;               
             }
-            else
-            {
-                victim = allyList[allyArrayCount];
-            }
-            
+            victim = allyList[allyArrayCount];
+
         }
         else if (attacker.tag == "Ally")
         {
             if (enemyList[enemyArrayCount].gameObject.activeSelf == false)
             {
                 enemyArrayCount++;
-                victim = enemyList[enemyArrayCount];
             }
-            else
-            {
-                victim = enemyList[enemyArrayCount];
-            }
+            victim = enemyList[enemyArrayCount];
         }
 
         if (!attacking)
