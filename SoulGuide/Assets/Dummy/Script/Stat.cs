@@ -5,25 +5,29 @@ using UnityEngine;
 public class Stat : MonoBehaviour
 {
     public int level;
-    public int exp;
     public int hp;
     public int maxHp;
     public int attackDamage;
     public int defense;
     public float speedWeight;
     public float speedStack;
+    public float attack1DurationTime;
+    public float attack2DurationTime;
+    public float attack3DurationTime;
 
     private void Awake()
     {
   
-        level = 1;
-        hp = 100;
-        maxHp = 100;
-        attackDamage = 50;
-        defense = 5;
-        speedWeight = Random.Range(50, 70);
+        level = 1;  //레벨
+        hp = 100;  //현재 HP
+        maxHp = 100;  //최대 HP
+        attackDamage = 50;  //공격력
+        defense = 5; //방어력
+        speedWeight = Random.Range(50, 70);  //속도 가중치
         speedStack = 0;  //100이 되기 전 스피드 누적치
-        
+        attack1DurationTime = 1;  //1번 공격이 진행되는 지속 시간
+        attack2DurationTime = 2;  //2번 공격이 진행되는 지속 시간
+        attack3DurationTime = 3;  //3번 공격이 진행되는 지속 시간
     }
 
     public void TakeDamage(int attackDamage)
@@ -31,7 +35,12 @@ public class Stat : MonoBehaviour
         if (attackDamage > defense)
         {
             hp -= attackDamage - defense;
-        }      
+        }
+        
+        if(hp <= 0)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     public int Priority(float wantStack)
