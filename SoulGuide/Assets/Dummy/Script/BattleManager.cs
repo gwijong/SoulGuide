@@ -10,30 +10,19 @@ public class BattleManager : MonoBehaviour
     public List<Stat> allyList; // 아군 캐릭터들 앞 오른쪽 왼쪽 뒤 순서
     public List<Stat> enemyList; // 1웨이브 적 캐릭터들
 
+
     public List<Stat> turnQueue = new List<Stat>();
+    public Queue<AnimationContainer> animQueue = new Queue<AnimationContainer>();
+
+    Stat nextTurnCharacter;
 
     public Transform[] spawnArea; //씬 로드 시 아군 캐릭터 소환 위치
-    public Transform[] anemySpawnArea; //씬 로드 시 적 캐릭터 소환 위치
+    public Transform[] enemySpawnArea; //씬 로드 시 적 캐릭터 소환 위치
 
-    public float speed;
-    public float limit = 100;
-    public int maxPriorityCount = 400;
+    public float speedStackLimit = 100;
+    public int maxPriorityCount = 10;
 
-    Stat attacker;
-    Stat victim;
-
-    bool attacking = false;
-    bool move = false;
-    public float attackMoveSpeed = 1.0f;
-    //[SerializeField]
-
-    int allyArrayCount = 0;
-    int enemyArrayCount = 0;
-
-    Vector3[] returnPosition = new Vector3[40];
-    int turnCount = 0;
-
-
+    int turnCount = 0;          //턴이 끝날 때 하나 늘어나서 "지난 턴 수 * 버프" 받는 애들 전용으로 두긴 할 거임
 
     private void Awake()
     {
@@ -50,61 +39,73 @@ public class BattleManager : MonoBehaviour
     void Start()
     {
         SpeedSort();
-        attacker = turnQueue[turnCount];
+        //for(int i = 0; i < 8; i++)
+        //{
+        //    Attack(allyList[0], enemyList[0]);
+        //};
+    }
 
-
-        for(int i =0; i<turnQueue.Count; i++)
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            returnPosition[i] = turnQueue[i].transform.position;
+            List<Stat> allCharacter = new List<Stat>();
+            allCharacter.AddRange(allyList);
+            allCharacter.AddRange(enemyList);
+
+            int fastestTurn = Stat.GetFastestTurn(allCharacter);
+
+            for (int i = 0; i < allCharacter.Count; i++)
+            {
+                allCharacter[i].TurnPass(fastestTurn);
+            };
+
+            int fastestCharacterIndex = Stat.GetFastestCharacter(allCharacter);
+
+            nextTurnCharacter = allCharacter[fastestCharacterIndex];
+
+            Debug.Log(nextTurnCharacter);
+            nextTurnCharacter.speedStack -= speedStackLimit;
         }
 
-    }
-
-
-    void Update()
-    {
-        Battle();
-    }
-
-    void OnAttack(Stat attacker, Stat victim)
-    {
-        victim.TakeDamage(attacker.attackDamage);
-    }
-
-    void Dead(Stat victim)
-    {
-        if (victim.hp <= 0)
+        if(Input.GetKeyDown(KeyCode.LeftControl))
         {
-            victim.gameObject.SetActive(false);
-            Debug.Log($"{ victim.name} 사망");
-        }        
-    }
-    
-    void TurnEnd()
-    {
-        ReturnPos();
-        turnQueue[turnCount].speedStack -= 100;
-        turnCount++;
-        attacker = turnQueue[turnCount];
-    }
+            SpeedSort();
+        };
 
-    void AttackMove(Stat attacker, Stat victim)
-    {
-        float distance = (victim.transform.position - attacker.transform.position).magnitude;
-        Vector2 direction = (victim.transform.position - attacker.transform.position).normalized;
-        if (distance >= 2 && attacking == true)
+        if(animQueue.Count > 0)
         {
-            attacker.transform.Translate(direction * attackMoveSpeed);
+            AnimationContainer currentAnim = animQueue.Peek();
+            
+            if(currentAnim.Calculate())//끝났는지 확인
+            {
+                animQueue.Dequeue();//삭제!
+            };
         }
         else
         {
-            move = false;
-        }
+            if(Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                Attack(allyList[0], enemyList[0]);
+                Debug.Log("1번 실행");
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                Attack(allyList[0], enemyList[1]);
+                Debug.Log("2번 실행");
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                Attack(allyList[0], enemyList[2]);
+                Debug.Log("3번 실행");
+            };
+        };
     }
 
-    void ReturnPos()
+
+    void TurnEnd()
     {
-        attacker.transform.position = returnPosition[turnCount];
+        turnCount++;
     }
 
     bool AnnihilationCheck()
@@ -122,8 +123,7 @@ public class BattleManager : MonoBehaviour
         else 
         {
             return false;
-        
-        }
+        };
     }
 
     void Battle()
@@ -132,41 +132,26 @@ public class BattleManager : MonoBehaviour
         {
             return;
         }
-        if (attacker.tag == "Enemy")
-        {
-            if (allyList[allyArrayCount].gameObject.activeSelf == false)
-            {
-                allyArrayCount++;               
-            }
-            victim = allyList[allyArrayCount];
-
-        }
-        else if (attacker.tag == "Ally")
-        {
-            if (enemyList[enemyArrayCount].gameObject.activeSelf == false)
-            {
-                enemyArrayCount++;
-            }
-            victim = enemyList[enemyArrayCount];
-        }
-
-        if (!attacking)
-        {
-            attacking = true;
-            StartCoroutine("Attacking");
-        }
-        
-        if(move)
-        {
-            AttackMove(attacker, victim);
-        }
-        
     }
 
-
-
-    void SpeedSort()  //  선택정렬
+    void Attack(Stat attacker, Stat victim)
     {
+        victim.hp -= attacker.attackDamage;
+        animQueue.Enqueue(new AnimationContainer(AnimationType.Move, 0.2f, attacker.transform, victim.transform.position + new Vector3(-1.0f, 0, 0)));
+        animQueue.Enqueue(new AnimationContainer(AnimationType.Wait, 1.0f));
+
+        if(victim.hp <= 0)
+        {
+            animQueue.Enqueue(new AnimationContainer(AnimationType.Die, 1.0f, victim.gameObject));
+            enemyList.Remove(victim);
+        };
+
+        animQueue.Enqueue(new AnimationContainer(AnimationType.Move, 0.2f, attacker.transform, attacker.transform.position));
+    }
+
+    void SpeedSort()  // 다음에 공격할 것으로 예상되는 캐릭터들을 구하기
+    {
+        Debug.Log("------------------------------------");
         turnQueue.Clear();  // 기존 턴 초기화
 
         List<Stat> allCharList = new List<Stat>();  //적과 아군 리스트 합침
@@ -182,19 +167,8 @@ public class BattleManager : MonoBehaviour
         };
 
         while(turnQueue.Count< maxPriorityCount)
-        {   
-            int fastestTurn = allCharList[0].Priority(expectArray[0]); // 제일 빨리 도는 캐릭터 턴
-
-            //제일 빨리 도는 캐릭터의 턴 수 찾기
-            for (int i = 1; i < expectArray.Length; i++)
-            {
-                int currentPriority = allCharList[i].Priority(expectArray[i]);
-
-                if (fastestTurn > currentPriority)
-                {
-                    fastestTurn = currentPriority;
-                };
-            };
+        {
+            int fastestTurn = Stat.GetFastestTurn(allCharList, expectArray);
 
             //가장 빠른 캐릭터가 100 이상 될 때까지 모든 애들 뱅뱅 돌려줌
             for (int i = 1; i < expectArray.Length; i++)
@@ -202,45 +176,24 @@ public class BattleManager : MonoBehaviour
                 expectArray[i] += fastestTurn * allCharList[i].speedWeight;
             };
 
-
             while (turnQueue.Count < maxPriorityCount)
             {
-                float maxSpeed = expectArray[0];  // 가장 빠른 캐릭터 누적치
-                int maxIndex = 0; //예상 배열의 가장 빠른캐릭터
+                int maxIndex = Stat.GetFastestCharacter(allCharList, expectArray);
 
-                for (int j = 0; j < expectArray.Length; j++)  //예상 배열 길이만큼 뱅뱅 반복
-                {
-                    if (maxSpeed < expectArray[j]) // 가장 빠른 캐릭터 스피드 비교
-                    {
-                        maxSpeed = expectArray[j]; // 예상 배열의 가장 빠른캐릭터의 스피드 누적치 대입
-                        maxIndex = j; //예상 배열의 가장 빠른캐릭터의 인덱스
-                    }
-                }
-
-                if (maxSpeed >= limit) //제일 빠른 캐릭터 스피드 누적치가 100 이상이면
+                if (expectArray[maxIndex] >= speedStackLimit) //제일 빠른 캐릭터 스피드 누적치가 100 이상이면
                 {
                     turnQueue.Add(allCharList[maxIndex]);  //제일 빠른 캐릭터 큐에 넣고
-                    
-                    //Debug.Log(allCharList[maxIndex]);
-                   
-                    expectArray[maxIndex] -= limit; //제일 빠른 캐릭터 스피드를 limit 만큼 빼줌
+                    Debug.Log(allCharList[maxIndex]);
+                    expectArray[maxIndex] -= speedStackLimit; //제일 빠른 캐릭터 스피드를 limit 만큼 빼줌
                 }
                 else
                 {
                     break;
-                }
-            }
-        }
+                };
+            };
+        };
     }
-    IEnumerator Attacking()
-    {
-        move = true;
-        yield return new WaitForSeconds(turnQueue[turnCount].attack1DurationTime);
-        OnAttack(attacker, victim);
-        move = false; 
-        attacking = false;
-        TurnEnd();
-    }
+
 
 
 }
