@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 40103298}
   - component: {fileID: 40103297}
   - component: {fileID: 40103296}
+  - component: {fileID: 40103300}
   m_Layer: 0
   m_Name: "\uC801_\uC704"
   m_TagString: Enemy
@@ -160,9 +161,7 @@ MonoBehaviour:
   defense: 0
   speedWeight: 0
   speedStack: 0
-  attack1DurationTime: 0
-  attack2DurationTime: 0
-  attack3DurationTime: 0
+  attackDurationTime: []
 --- !u!212 &40103297
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -228,6 +227,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &40103300
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 40103295}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &184343464
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,9 +290,7 @@ MonoBehaviour:
   defense: 0
   speedWeight: 0
   speedStack: 0
-  attack1DurationTime: 0
-  attack2DurationTime: 0
-  attack3DurationTime: 0
+  attackDurationTime: []
 --- !u!212 &184343466
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -374,11 +397,10 @@ MonoBehaviour:
   - {fileID: 1729519055}
   turnQueue: []
   spawnArea: []
-  anemySpawnArea: []
-  speed: 0
-  limit: 100
+  enemySpawnArea: []
+  speedStackLimit: 100
   maxPriorityCount: 40
-  attackMoveSpeed: 0.1
+  target: {fileID: 0}
 --- !u!4 &193502423
 Transform:
   m_ObjectHideFlags: 0
@@ -430,9 +452,7 @@ MonoBehaviour:
   defense: 0
   speedWeight: 0
   speedStack: 0
-  attack1DurationTime: 0
-  attack2DurationTime: 0
-  attack3DurationTime: 0
+  attackDurationTime: []
 --- !u!212 &239648587
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -592,6 +612,7 @@ GameObject:
   - component: {fileID: 900096390}
   - component: {fileID: 900096389}
   - component: {fileID: 900096388}
+  - component: {fileID: 900096392}
   m_Layer: 0
   m_Name: "\uC801_\uC55E"
   m_TagString: Enemy
@@ -618,9 +639,7 @@ MonoBehaviour:
   defense: 0
   speedWeight: 0
   speedStack: 0
-  attack1DurationTime: 0
-  attack2DurationTime: 0
-  attack3DurationTime: 0
+  attackDurationTime: []
 --- !u!212 &900096389
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -686,6 +705,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &900096392
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900096387}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1523447424
 GameObject:
   m_ObjectHideFlags: 0
@@ -697,6 +742,7 @@ GameObject:
   - component: {fileID: 1523447427}
   - component: {fileID: 1523447426}
   - component: {fileID: 1523447425}
+  - component: {fileID: 1523447429}
   m_Layer: 0
   m_Name: "\uC801_\uC544\uB798"
   m_TagString: Enemy
@@ -723,9 +769,7 @@ MonoBehaviour:
   defense: 0
   speedWeight: 0
   speedStack: 0
-  attack1DurationTime: 0
-  attack2DurationTime: 0
-  attack3DurationTime: 0
+  attackDurationTime: []
 --- !u!212 &1523447426
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -791,6 +835,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1523447429
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1523447424}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1596871948
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,9 +898,7 @@ MonoBehaviour:
   defense: 0
   speedWeight: 0
   speedStack: 0
-  attack1DurationTime: 0
-  attack2DurationTime: 0
-  attack3DurationTime: 0
+  attackDurationTime: []
 --- !u!212 &1596871950
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -907,6 +975,7 @@ GameObject:
   - component: {fileID: 1729519057}
   - component: {fileID: 1729519056}
   - component: {fileID: 1729519055}
+  - component: {fileID: 1729519059}
   m_Layer: 0
   m_Name: "\uC801_\uB4A4"
   m_TagString: Enemy
@@ -933,9 +1002,7 @@ MonoBehaviour:
   defense: 0
   speedWeight: 0
   speedStack: 0
-  attack1DurationTime: 0
-  attack2DurationTime: 0
-  attack3DurationTime: 0
+  attackDurationTime: []
 --- !u!212 &1729519056
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1001,6 +1068,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &1729519059
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729519054}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &1794519134
 GameObject:
   m_ObjectHideFlags: 0
@@ -1038,9 +1131,7 @@ MonoBehaviour:
   defense: 0
   speedWeight: 0
   speedStack: 0
-  attack1DurationTime: 0
-  attack2DurationTime: 0
-  attack3DurationTime: 0
+  attackDurationTime: []
 --- !u!212 &1794519136
 SpriteRenderer:
   m_ObjectHideFlags: 0

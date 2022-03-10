@@ -14,16 +14,17 @@ public class BattleManager : MonoBehaviour
     public List<Stat> turnQueue = new List<Stat>();
     public Queue<AnimationContainer> animQueue = new Queue<AnimationContainer>();
 
-    Stat nextTurnCharacter;
+    Stat nextTurnCharacter;  //지금 때릴 현재턴 캐릭터
 
     public Transform[] spawnArea; //씬 로드 시 아군 캐릭터 소환 위치
     public Transform[] enemySpawnArea; //씬 로드 시 적 캐릭터 소환 위치
 
-    public float speedStackLimit = 100;
-    public int maxPriorityCount = 10;
+    public float speedStackLimit = 100; //속도스택한계치가 가득 차면 공격 턴 배치
+    public int maxPriorityCount = 10; //우선순위 최대숫자
 
     int turnCount = 0;          //턴이 끝날 때 하나 늘어나서 "지난 턴 수 * 버프" 받는 애들 전용으로 두긴 할 거임
 
+    public Stat target;
     private void Awake()
     {
         if (battleManager == null)
@@ -39,6 +40,7 @@ public class BattleManager : MonoBehaviour
     void Start()
     {
         SpeedSort();
+        sort();
         //for(int i = 0; i < 8; i++)
         //{
         //    Attack(allyList[0], enemyList[0]);
@@ -47,8 +49,52 @@ public class BattleManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))  //임시 더미 코드
         {
+            SpeedSort();
+        };
+
+        if(animQueue.Count > 0)  //이동이나 공격 애니메이션이 진행중인지 체크
+        {
+            AnimationContainer currentAnim = animQueue.Peek();
+            
+            if(currentAnim.Calculate())//끝났는지 확인
+            {
+                animQueue.Dequeue();//삭제!
+            };
+        }
+        else //임시 더미 코드
+        {
+            
+            AnnihilationCheck();
+            if (AnnihilationCheck())
+            {
+                return;
+            }
+            if (nextTurnCharacter.tag == "Ally" && Input.GetMouseButtonDown(0))
+            {
+                Touch();
+                if (target.tag=="Enemy")
+                {
+                    Attack(nextTurnCharacter, target);
+                    sort();
+                }else if (target == null)
+                {
+                    Attack(nextTurnCharacter, enemyList[0]);
+                    sort();
+                }
+            }
+            else if (nextTurnCharacter.tag == "Enemy")
+            {
+                Attack(nextTurnCharacter, allyList[0]);
+                sort();
+            }
+        };
+    }
+
+    void sort()
+    {
             List<Stat> allCharacter = new List<Stat>();
             allCharacter.AddRange(allyList);
             allCharacter.AddRange(enemyList);
@@ -60,48 +106,18 @@ public class BattleManager : MonoBehaviour
                 allCharacter[i].TurnPass(fastestTurn);
             };
 
-            int fastestCharacterIndex = Stat.GetFastestCharacter(allCharacter);
-
+        int fastestCharacterIndex = Stat.GetFastestCharacter(allCharacter);
+        if (allCharacter[fastestCharacterIndex] == null)
+        {
+            allCharacter.Remove(allCharacter[fastestCharacterIndex]);
+            sort();
+        }
             nextTurnCharacter = allCharacter[fastestCharacterIndex];
 
             Debug.Log(nextTurnCharacter);
             nextTurnCharacter.speedStack -= speedStackLimit;
-        }
-
-        if(Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            SpeedSort();
-        };
-
-        if(animQueue.Count > 0)
-        {
-            AnimationContainer currentAnim = animQueue.Peek();
-            
-            if(currentAnim.Calculate())//끝났는지 확인
-            {
-                animQueue.Dequeue();//삭제!
-            };
-        }
-        else
-        {
-            if(Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                Attack(allyList[0], enemyList[0]);
-                Debug.Log("1번 실행");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                Attack(allyList[0], enemyList[1]);
-                Debug.Log("2번 실행");
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                Attack(allyList[0], enemyList[2]);
-                Debug.Log("3번 실행");
-            };
-        };
+        
     }
-
 
     void TurnEnd()
     {
@@ -137,18 +153,34 @@ public class BattleManager : MonoBehaviour
     void Attack(Stat attacker, Stat victim)
     {
         victim.hp -= attacker.attackDamage;
-        animQueue.Enqueue(new AnimationContainer(AnimationType.Move, 0.2f, attacker.transform, victim.transform.position + new Vector3(-1.0f, 0, 0)));
+        if(attacker.tag == "Ally")
+        {
+            animQueue.Enqueue(new AnimationContainer(AnimationType.Move, 0.2f, attacker.transform, victim.transform.position + new Vector3(-1.0f, 0, 0)));
+        }
+        else
+        {
+            animQueue.Enqueue(new AnimationContainer(AnimationType.Move, 0.2f, attacker.transform, victim.transform.position + new Vector3(1.0f, 0, 0)));
+        }
+        
         animQueue.Enqueue(new AnimationContainer(AnimationType.Wait, 1.0f));
 
         if(victim.hp <= 0)
         {
             animQueue.Enqueue(new AnimationContainer(AnimationType.Die, 1.0f, victim.gameObject));
-            enemyList.Remove(victim);
+            if (victim.tag == "Ally")
+            {
+                allyList.Remove(victim);
+            }
+            else
+            {
+                enemyList.Remove(victim);
+            }
+            
         };
-
         animQueue.Enqueue(new AnimationContainer(AnimationType.Move, 0.2f, attacker.transform, attacker.transform.position));
     }
 
+    //아래 정렬 메서드는 화면 오른쪽에 각 캐릭터별 턴 예상 진행상황을 보여주기 위한 코드로, 게임에 직접 영향을 미치는 코드가 아님
     void SpeedSort()  // 다음에 공격할 것으로 예상되는 캐릭터들을 구하기
     {
         Debug.Log("------------------------------------");
@@ -192,8 +224,24 @@ public class BattleManager : MonoBehaviour
                 };
             };
         };
-    }
 
+    }
+    void Touch()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit2D hit = Physics2D.GetRayIntersection(ray, Mathf.Infinity);
+
+        if (hit.collider == null)
+        {
+            target = enemyList[0];
+            return;
+        }
+        if(hit.collider.tag == "Enemy")
+        {
+            target = hit.transform.GetComponent<Stat>();
+        }
+
+    }
 
 
 }
