@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class BattleManager : MonoBehaviour
     public List<Stat> turnQueue = new List<Stat>();
     public Queue<AnimationContainer> animQueue = new Queue<AnimationContainer>();
 
-    Stat nextTurnCharacter;  //지금 때릴 현재턴 캐릭터
+    public Stat nextTurnCharacter;  //지금 때릴 현재턴 캐릭터
 
     public Transform[] spawnArea; //씬 로드 시 아군 캐릭터 소환 위치
     public Transform[] enemySpawnArea; //씬 로드 시 적 캐릭터 소환 위치
@@ -23,8 +24,10 @@ public class BattleManager : MonoBehaviour
     public int maxPriorityCount = 10; //우선순위 최대숫자
 
     int turnCount = 0;          //턴이 끝날 때 하나 늘어나서 "지난 턴 수 * 버프" 받는 애들 전용으로 두긴 할 거임
-
     public Stat target;
+    public Text text;
+    bool gameStartWait = true;
+
     private void Awake()
     {
         if (battleManager == null)
@@ -36,24 +39,24 @@ public class BattleManager : MonoBehaviour
             Destroy(this);
         };
     }
-
+    
     void Start()
     {
         SpeedSort();
         sort();
-        //for(int i = 0; i < 8; i++)
-        //{
-        //    Attack(allyList[0], enemyList[0]);
-        //};
+        StartCoroutine("GameStart");
+
     }
 
     private void Update()
     {
-
-        if (Input.GetKeyDown(KeyCode.LeftControl))  //임시 더미 코드
+        if (gameStartWait)
         {
-            SpeedSort();
-        };
+            return;
+        }
+
+        TextOutput();
+
 
         if(animQueue.Count > 0)  //이동이나 공격 애니메이션이 진행중인지 체크
         {
@@ -64,7 +67,7 @@ public class BattleManager : MonoBehaviour
                 animQueue.Dequeue();//삭제!
             };
         }
-        else //임시 더미 코드
+        else 
         {
             
             AnnihilationCheck();
@@ -87,7 +90,8 @@ public class BattleManager : MonoBehaviour
             }
             else if (nextTurnCharacter.tag == "Enemy")
             {
-                Attack(nextTurnCharacter, allyList[0]);
+                int allyAttackTarget = UnityEngine.Random.Range(0, allyList.Count);
+                Attack(nextTurnCharacter, allyList[allyAttackTarget]);               
                 sort();
             }
         };
@@ -114,7 +118,7 @@ public class BattleManager : MonoBehaviour
         }
             nextTurnCharacter = allCharacter[fastestCharacterIndex];
 
-            Debug.Log(nextTurnCharacter);
+            //Debug.Log(nextTurnCharacter);
             nextTurnCharacter.speedStack -= speedStackLimit;
         
     }
@@ -142,14 +146,7 @@ public class BattleManager : MonoBehaviour
         };
     }
 
-    void Battle()
-    {
-        if (AnnihilationCheck())
-        {
-            return;
-        }
-    }
-
+    
     void Attack(Stat attacker, Stat victim)
     {
         victim.hp -= attacker.attackDamage;
@@ -157,9 +154,14 @@ public class BattleManager : MonoBehaviour
         {
             animQueue.Enqueue(new AnimationContainer(AnimationType.Move, 0.2f, attacker.transform, victim.transform.position + new Vector3(-1.0f, 0, 0)));
         }
+        else if(attacker.tag == "Enemy")
+        {
+          
+            animQueue.Enqueue(new AnimationContainer(AnimationType.Move, 0.2f, attacker.transform, victim.transform.position + new Vector3(1.0f, 0, 0)));
+        }
         else
         {
-            animQueue.Enqueue(new AnimationContainer(AnimationType.Move, 0.2f, attacker.transform, victim.transform.position + new Vector3(1.0f, 0, 0)));
+            Debug.Log("공격부분 에러");
         }
         
         animQueue.Enqueue(new AnimationContainer(AnimationType.Wait, 1.0f));
@@ -183,7 +185,7 @@ public class BattleManager : MonoBehaviour
     //아래 정렬 메서드는 화면 오른쪽에 각 캐릭터별 턴 예상 진행상황을 보여주기 위한 코드로, 게임에 직접 영향을 미치는 코드가 아님
     void SpeedSort()  // 다음에 공격할 것으로 예상되는 캐릭터들을 구하기
     {
-        Debug.Log("------------------------------------");
+        //Debug.Log("------------------------------------");
         turnQueue.Clear();  // 기존 턴 초기화
 
         List<Stat> allCharList = new List<Stat>();  //적과 아군 리스트 합침
@@ -215,7 +217,7 @@ public class BattleManager : MonoBehaviour
                 if (expectArray[maxIndex] >= speedStackLimit) //제일 빠른 캐릭터 스피드 누적치가 100 이상이면
                 {
                     turnQueue.Add(allCharList[maxIndex]);  //제일 빠른 캐릭터 큐에 넣고
-                    Debug.Log(allCharList[maxIndex]);
+                    //Debug.Log(allCharList[maxIndex]);
                     expectArray[maxIndex] -= speedStackLimit; //제일 빠른 캐릭터 스피드를 limit 만큼 빼줌
                 }
                 else
@@ -243,5 +245,30 @@ public class BattleManager : MonoBehaviour
 
     }
 
+    IEnumerator GameStart()
+    {
+        yield return new WaitForSeconds(1.5f);
+        gameStartWait = false;
+    }
 
+
+    void TextOutput()
+    {
+        if (animQueue.Count > 0)
+        {
+            return;
+        }
+        if (nextTurnCharacter.tag == "Ally")
+        {
+            text.text = $"아군 {nextTurnCharacter.name} 턴";
+        }
+        else if (nextTurnCharacter.tag == "Enemy")
+        {
+            text.text = $"적군 {nextTurnCharacter.name} 턴";
+        }
+        if (AnnihilationCheck())
+        {
+            text.text = $"전투 종료";
+        }
+    }
 }

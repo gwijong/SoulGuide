@@ -87,14 +87,16 @@ public class AnimationContainer
 
         //남은 시간이 크면 클수록 시작지점에 가깝고
         //남은 시간이 작을수록 목적지에 가깝다
-
-        //                                            0 ~ 1                                 1 ~ 0
+        //                                           0 ~ 1                                 1 ~ 0
         // 캐릭터의 위치              =    시작지점 * 남은시간              목적지      *   (1 - 남은시간)        
-        ((Transform)arg1).position = (((Vector3)arg3) * timeLeft) + (((Vector3)arg2) * (1 - timeLeft));
+        ((Transform)arg1).position = (((Vector3)arg3) * timeLeft) + (((Vector3)arg2) * (1 - timeLeft));   
     }
 
     public void EndDie()  // 사망 애니메이션의 맨 마지막
     {
         GameObject.Destroy((GameObject)arg1);
     }
+
+
+
 }
