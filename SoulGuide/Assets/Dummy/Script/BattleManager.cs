@@ -183,7 +183,11 @@ public class BattleManager : MonoBehaviour
     }
 
     //아래 정렬 메서드는 화면 오른쪽에 각 캐릭터별 턴 예상 진행상황을 보여주기 위한 코드로, 게임에 직접 영향을 미치는 코드가 아님
+<<<<<<< HEAD
     public void SpeedSort()  // 다음에 공격할 것으로 예상되는 캐릭터들을 구하기
+=======
+    void SpeedSort()  // 다음에 공격할 것으로 예상되는 캐릭터들을 구하기
+>>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
     {
         //Debug.Log("------------------------------------");
         turnQueue.Clear();  // 기존 턴 초기화
