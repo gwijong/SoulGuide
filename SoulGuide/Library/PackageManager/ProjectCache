@@ -5,11 +5,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-<<<<<<< HEAD
       ticks: 637825776430000000
-=======
-      ticks: 637824142506207563
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
     m_Hash: 238244261
   m_LockFileStatus:
     m_FilePath: D:/Unity/Github/SoulGuide/SoulGuide/Packages/packages-lock.json
@@ -17,11 +13,7 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-<<<<<<< HEAD
       ticks: 637825776430000000
-=======
-      ticks: 637824142506367544
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
     m_Hash: 201114752
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
@@ -33,11 +25,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 5.0.9
       source: 1
-<<<<<<< HEAD
-      resolvedPath: C:\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.animation@5.0.9
-=======
       resolvedPath: D:\Unity\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.animation@5.0.9
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       assetPath: Packages/com.unity.2d.animation
       name: com.unity.2d.animation
       displayName: 2D Animation
@@ -95,10 +83,7 @@ m_PackageAssets:
         - 3.2.14
         - 3.2.15
         - 3.2.16
-<<<<<<< HEAD
         - 3.2.17
-=======
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
         - 4.0.0
         - 4.0.1
         - 4.1.0
@@ -202,11 +187,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 4.0.1
       source: 1
-<<<<<<< HEAD
-      resolvedPath: C:\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.pixel-perfect@4.0.1
-=======
       resolvedPath: D:\Unity\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.pixel-perfect@4.0.1
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       assetPath: Packages/com.unity.2d.pixel-perfect
       name: com.unity.2d.pixel-perfect
       displayName: 2D Pixel Perfect
@@ -281,11 +262,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 4.1.2
       source: 1
-<<<<<<< HEAD
-      resolvedPath: C:\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.psdimporter@4.1.2
-=======
       resolvedPath: D:\Unity\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.psdimporter@4.1.2
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       assetPath: Packages/com.unity.2d.psdimporter
       name: com.unity.2d.psdimporter
       displayName: 2D PSD Importer
@@ -325,10 +302,7 @@ m_PackageAssets:
         - 2.1.8
         - 2.1.9
         - 2.1.10
-<<<<<<< HEAD
         - 2.1.11
-=======
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
         - 3.0.0
         - 3.1.1
         - 3.1.3
@@ -421,11 +395,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 1.0.0
       source: 2
-<<<<<<< HEAD
-      resolvedPath: C:\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.sprite@1.0.0
-=======
       resolvedPath: D:\Unity\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.sprite@1.0.0
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       assetPath: Packages/com.unity.2d.sprite
       name: com.unity.2d.sprite
       displayName: 2D Sprite
@@ -476,11 +446,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 5.1.6
       source: 1
-<<<<<<< HEAD
-      resolvedPath: C:\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.spriteshape@5.1.6
-=======
       resolvedPath: D:\Unity\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.spriteshape@5.1.6
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       assetPath: Packages/com.unity.2d.spriteshape
       name: com.unity.2d.spriteshape
       displayName: 2D SpriteShape
@@ -632,11 +598,7 @@ m_PackageAssets:
       isDirectDependency: 1
       version: 1.0.0
       source: 2
-<<<<<<< HEAD
-      resolvedPath: C:\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.tilemap@1.0.0
-=======
       resolvedPath: D:\Unity\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.tilemap@1.0.0
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       assetPath: Packages/com.unity.2d.tilemap
       name: com.unity.2d.tilemap
       displayName: 2D Tilemap Editor
@@ -1294,10 +1256,7 @@ m_PackageAssets:
         - 2.1.6
         - 2.2.0-preview.1
         - 2.2.0-preview.2
-<<<<<<< HEAD
         - 2.2.0-preview.3
-=======
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
         - 3.0.0-preview.1
         - 3.0.0-preview.3
         - 3.0.0-preview.4
@@ -1453,10 +1412,7 @@ m_PackageAssets:
         - 1.7.0-pre.1
         - 1.7.0-pre.2
         - 1.7.0
-<<<<<<< HEAD
         - 1.7.1
-=======
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
         compatible:
         - 1.4.8
         - 1.5.0-pre.2
@@ -1484,10 +1440,7 @@ m_PackageAssets:
         - 1.7.0-pre.1
         - 1.7.0-pre.2
         - 1.7.0
-<<<<<<< HEAD
         - 1.7.1
-=======
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
         verified: 1.4.8
       dependencies:
       - name: com.unity.modules.director
@@ -3555,11 +3508,7 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 1.1.0
       source: 1
-<<<<<<< HEAD
-      resolvedPath: C:\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.mathematics@1.1.0
-=======
       resolvedPath: D:\Unity\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.mathematics@1.1.0
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       assetPath: Packages/com.unity.mathematics
       name: com.unity.mathematics
       displayName: Mathematics
@@ -3575,14 +3524,6 @@ m_PackageAssets:
       errors: []
       versions:
         all:
-<<<<<<< HEAD
-        - 1.1.0
-        - 1.2.1
-        - 1.2.5
-        compatible:
-        - 1.1.0
-        - 1.2.1
-=======
         - 0.0.12-preview.2
         - 0.0.12-preview.5
         - 0.0.12-preview.8
@@ -3615,7 +3556,6 @@ m_PackageAssets:
         - 1.1.0
         - 1.2.1
         - 1.2.4
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
         - 1.2.5
         verified: 1.2.5
       dependencies: []
@@ -3634,11 +3574,7 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-<<<<<<< HEAD
-      datePublishedTicks: 0
-=======
       datePublishedTicks: 636984649280000000
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       documentationUrl: 
       hasRepository: 1
       repository:
@@ -3651,11 +3587,7 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 4.0.3
       source: 1
-<<<<<<< HEAD
-      resolvedPath: C:\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.common@4.0.3
-=======
       resolvedPath: D:\Unity\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.common@4.0.3
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       assetPath: Packages/com.unity.2d.common
       name: com.unity.2d.common
       displayName: 2D Common
@@ -3671,12 +3603,6 @@ m_PackageAssets:
       errors: []
       versions:
         all:
-<<<<<<< HEAD
-        - 4.0.3
-        compatible:
-        - 4.0.3
-        verified: 4.0.3
-=======
         - 1.0.9-preview.1
         - 1.0.9-preview.2
         - 1.0.10-preview
@@ -3712,7 +3638,6 @@ m_PackageAssets:
         - 4.0.3
         - 4.0.4
         verified: 4.0.4
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       dependencies:
       - name: com.unity.2d.sprite
         version: 1.0.0
@@ -3745,11 +3670,7 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-<<<<<<< HEAD
-      datePublishedTicks: 0
-=======
       datePublishedTicks: 637408843940000000
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       documentationUrl: 
       hasRepository: 1
       repository:
@@ -3762,11 +3683,7 @@ m_PackageAssets:
       isDirectDependency: 0
       version: 4.0.2
       source: 1
-<<<<<<< HEAD
-      resolvedPath: C:\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.path@4.0.2
-=======
       resolvedPath: D:\Unity\Github\SoulGuide\SoulGuide\Library\PackageCache\com.unity.2d.path@4.0.2
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       assetPath: Packages/com.unity.2d.path
       name: com.unity.2d.path
       displayName: 2D Path
@@ -3782,9 +3699,6 @@ m_PackageAssets:
       errors: []
       versions:
         all:
-<<<<<<< HEAD
-        - 4.0.2
-=======
         - 1.0.0-preview.1
         - 1.0.0-preview.4
         - 2.0.1
@@ -3805,7 +3719,6 @@ m_PackageAssets:
         - 5.0.0-pre.2
         - 5.0.0
         - 5.0.1
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
         compatible:
         - 4.0.2
         verified: 4.0.2
@@ -3826,11 +3739,7 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-<<<<<<< HEAD
-      datePublishedTicks: 0
-=======
       datePublishedTicks: 637637511040000000
->>>>>>> 914fb390178d94635bb5a2b5da61477b2167295c
       documentationUrl: 
       hasRepository: 1
       repository:
